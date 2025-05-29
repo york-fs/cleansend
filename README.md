@@ -1,8 +1,8 @@
-# Clean Vehicle Telemetry Simulator 📡
+# Cleansend
 
 A streamlined Python project for generating realistic electric vehicle telemetry data for testing the dashboard. This project creates protobuf-formatted data matching the exact specifications used by the dashboard's serial communication system.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -17,14 +17,14 @@ A streamlined Python project for generating realistic electric vehicle telemetry
 cd cleansend
 
 # Install dependencies (automatic with uv)
-uv run python vehicle_simulator_clean.py --help
+uv run python cleansend.py --help
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 cleansend/
-├── vehicle_simulator_clean.py # Main vehicle simulation with mission profiles
+├── cleansend.py # Main vehicle simulation with mission profiles
 ├── telemetry_sender.py        # Base telemetry data generator class
 ├── telemetry_pb2.py           # Generated Python protobuf code
 ├── telemetry.proto            # Protobuf schema definition
@@ -34,27 +34,27 @@ cleansend/
 └── .python-version            # Python version specification
 ```
 
-## 🔧 Usage
+## Usage
 
-### Vehicle Simulator 🚗
+### Vehicle Simulator
 
 Simulate realistic electric vehicle behavior with mission profiles:
 
 ```bash
 # City driving simulation
-uv run python vehicle_simulator_clean.py --port /dev/ttyUSB0 --mission-profile city
+uv run python cleansend.py --port /dev/ttyUSB0 --mission-profile city
 
 # Highway cruising
-uv run python vehicle_simulator_clean.py --port /dev/ttyUSB0 --mission-profile highway
+uv run python cleansend.py --port /dev/ttyUSB0 --mission-profile highway
 
 # Track day (aggressive driving)
-uv run python vehicle_simulator_clean.py --port /dev/ttyUSB0 --mission-profile track_day
+uv run python cleansend.py --port /dev/ttyUSB0 --mission-profile track_day
 
 # Efficiency test (gentle driving)
-uv run python vehicle_simulator_clean.py --port /dev/ttyUSB0 --mission-profile efficiency_test
+uv run python cleansend.py --port /dev/ttyUSB0 --mission-profile efficiency_test
 
 # Parked/idle vehicle
-uv run python vehicle_simulator_clean.py --port /dev/ttyUSB0 --mission-profile idle
+uv run python cleansend.py --port /dev/ttyUSB0 --mission-profile idle
 ```
 
 #### Available Mission Profiles:
@@ -64,7 +64,7 @@ uv run python vehicle_simulator_clean.py --port /dev/ttyUSB0 --mission-profile i
 - **`efficiency_test`**: Gentle eco-driving, 10-25% throttle
 - **`idle`**: Parked vehicle, minimal activity
 
-## 📡 Two-Radio Setup (Realistic Testing)
+## Two-Radio Setup (Realistic Testing)
 
 For the most realistic testing, use two SiK radios: one for the "vehicle" and one for the dashboard.
 
@@ -75,7 +75,7 @@ For the most realistic testing, use two SiK radios: one for the "vehicle" and on
 2. **Start vehicle simulator** on first radio:
    ```bash
    cd cleansend
-   uv run python vehicle_simulator_clean.py --port /dev/ttyUSB0 --mission-profile highway
+   uv run python cleansend.py --port /dev/ttyUSB0 --mission-profile highway
    ```
 
 3. **Start dashboard** and connect to second radio:
@@ -87,7 +87,7 @@ For the most realistic testing, use two SiK radios: one for the "vehicle" and on
 
 4. **Watch live telemetry** from simulated vehicle!
 
-## 📊 Generated Data Types
+## Generated Data Types
 
 ### APPS (Accelerator Pedal Position Sensor)
 - **Throttle Position**: 0-100% with realistic acceleration patterns
@@ -110,12 +110,12 @@ For the most realistic testing, use two SiK radios: one for the "vehicle" and on
 - **Fault Codes**: NO_FAULTS, overcurrent, overtemperature, etc.
 - **Limit States**: Various protection limits and thresholds
 
-## 🛠️ Command Line Options
+## Command Line Options
 
-### vehicle_simulator_clean.py
+### cleansend.py
 
 ```bash
-uv run python vehicle_simulator_clean.py [OPTIONS]
+uv run python cleansend.py [OPTIONS]
 
 Options:
   -p, --port PORT         SiK radio serial port (e.g., /dev/ttyUSB0) [REQUIRED]
@@ -130,19 +130,19 @@ Options:
 
 ```bash
 # Highway simulation
-uv run python vehicle_simulator_clean.py -p /dev/ttyUSB0 -m highway
+uv run python cleansend.py -p /dev/ttyUSB0 -m highway
 
 # High-frequency track day simulation
-uv run python vehicle_simulator_clean.py -p /dev/ttyUSB0 -m track_day -r 20.0
+uv run python cleansend.py -p /dev/ttyUSB0 -m track_day -r 20.0
 
 # 5-minute city driving test
-uv run python vehicle_simulator_clean.py -p /dev/ttyUSB0 -m city -d 300
+uv run python cleansend.py -p /dev/ttyUSB0 -m city -d 300
 
 # Test with different baud rate
-uv run python vehicle_simulator_clean.py -p /dev/ttyUSB0 -m efficiency_test -b 115200
+uv run python cleansend.py -p /dev/ttyUSB0 -m efficiency_test -b 115200
 ```
 
-## 🔌 Dashboard Integration
+## Dashboard Integration
 
 ### Two-Radio Testing (Recommended)
 
@@ -151,7 +151,7 @@ uv run python vehicle_simulator_clean.py -p /dev/ttyUSB0 -m efficiency_test -b 1
 2. **Start vehicle simulator**:
    ```bash
    cd cleansend
-   uv run python vehicle_simulator_clean.py --port /dev/ttyUSB0 --mission-profile highway
+   uv run python cleansend.py --port /dev/ttyUSB0 --mission-profile highway
    ```
 
 3. **Start dashboard and connect to second radio**:
@@ -161,7 +161,7 @@ uv run python vehicle_simulator_clean.py -p /dev/ttyUSB0 -m efficiency_test -b 1
    # Browser: Connect to /dev/ttyUSB1
    ```
 
-## 📡 Data Format
+## Data Format
 
 ### Protobuf Wire Format
 
@@ -196,7 +196,7 @@ message TelemetryPacket {
 - Configurable: 1-100Hz
 - Production: Typically 5-20Hz
 
-## 🔍 Troubleshooting
+## Troubleshooting
 
 ### Serial Port Issues
 
@@ -238,11 +238,11 @@ cat /dev/ttyUSB1  # Should show "test"
 3. **Check Data**: Use dashboard test page to verify protobuf mode
 4. **Check Logs**: Check `/tmp/vehicle_simulator.log` for errors
 
-## 🧪 Development
+## Development
 
 ### Adding New Mission Profiles
 
-Add new profiles by modifying the `profiles` dictionary in `vehicle_simulator_clean.py`:
+Add new profiles by modifying the `profiles` dictionary in `cleansend.py`:
 
 ```python
 def _custom_profile(self, elapsed_time: float) -> dict:
@@ -264,10 +264,8 @@ The clean vehicle simulator includes:
 - **Thermal modeling**: Load-dependent temperature rise
 - **Clean output**: All logging goes to `/tmp/vehicle_simulator.log`
 
-## 📄 License
+## License
 
-This project follows the same license as the main dashboard project.
+This project follows the MIT license.
 
----
-
-**Happy Testing! 🚗⚡**
+**Happy Testing!**
